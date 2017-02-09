@@ -1,5 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.zane.easylinecounter'
+//
+//countpath {
+//    javaPath = "/com/example/zane/easylinecounter"
+//    resPath = ""
+//}
 
 android {
     compileSdkVersion 25
@@ -19,11 +24,6 @@ android {
         }
     }
 }
-
-//countpath {
-//    javaPath = "/com/example/zane/easylinecounter"
-//    resPath = "/layout"
-//}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])

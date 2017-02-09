@@ -12,30 +12,43 @@ public class CountLineTask extends DefaultTask {
 
     def String javaPath;
     def String resPath;
-    def int lines = 0;
+    def int javaLines = 0;
+    def int resLines = 0;
 
     //task的响应方法
     @TaskAction
-    void countLine(){
-//        if (!isPathValid(javaPath, resPath)) {
-//            println "both of javaPath and resPath can't be null"
-//            return
-//        }
-        if (javaPath != null && resPath != null) {
-            def javaDir = new File(javaPath)
-            def resDir = new File(resPath)
-            travelAndCount(javaDir)
-            travelAndCount(resDir)
-            println "代码总行数是: " + lines
+    void countLine() {
+        if (!isPathValid(javaPath, resPath)) {
+            throw new IllegalArgumentException("both of java and res path can't be null")
         }
-        return;
+
+        def javaDir = new File(javaPath)
+        def resDir = new File(resPath)
+        travelAndCount(javaDir)
+        travelAndCount(resDir)
+        printSummary()
     }
 
-    private def isPathValid() {
+    /**
+     * 判断路径是否ok
+     * @param javaPath
+     * @param resPath
+     * @return
+     */
+    def isPathValid(String javaPath, String resPath) {
         if (javaPath != null && resPath != null) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 打印结果
+     */
+    def printSummary(){
+        println 'Java文件的代码行数： ' + javaLines
+        println 'Res文件的代码行数： ' + resLines
+        println '文件的代码总行数： ' + (javaLines + resLines)
     }
 
     /**
@@ -46,10 +59,12 @@ public class CountLineTask extends DefaultTask {
         dir.traverse { file ->
             if (!file.directory) {
                 //dir是文件，开始统计行数
-                if (file.name.endsWith(".java") || file.name.endsWith(".xml")) {
-                    println file.name + " filename"
-                    def list = file.collect{it}
-                    lines += list.size()
+                println file.name + " filename"
+                def list = file.collect{it}
+                if (file.name.endsWith(".java")) {
+                    javaLines += list.size()
+                } else if (file.name.endsWith(".xml")) {
+                    resLines += list.size()
                 }
             }
         }

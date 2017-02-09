@@ -17,7 +17,8 @@ class CountLinePlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
-        project.extensions.create(COUNT_PATH, CountLineExtension)
+        //def ext = project.extensions['countpath'] as CountLineExtension
+        //project.extensions.create(COUNT_PATH, CountLineExtension)
 
         String rootDir = project.rootDir.absolutePath
         def task = project.tasks.create(TASK_NAME, CountLineTask)
