@@ -4,12 +4,12 @@ buildscript {
     repositories {
         jcenter()
         maven{
-            url 'file:///Users/zane/programming/AndroidStudioProjects/mt/EasyLineCounter/'
+            url 'file:///Users/Zane/programming/AndroidProject2/EasyLineCounter'
         }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.3'
-        classpath 'com.zane.easylinecounter:countlineplugin:1.0.3'
+        classpath 'com.zane.easylinecounter:countlineplugin:1.0.5'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }

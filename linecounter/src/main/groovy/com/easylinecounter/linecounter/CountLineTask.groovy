@@ -10,10 +10,10 @@ import org.gradle.api.tasks.TaskAction
 
 public class CountLineTask extends DefaultTask {
 
-    def String javaPath;
-    def String resPath;
-    def int javaLines = 0;
-    def int resLines = 0;
+    def javaPath;
+    def resPath;
+    def javaLines = 0;
+    def resLines = 0;
 
     //task的响应方法
     @TaskAction

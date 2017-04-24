@@ -12,22 +12,30 @@ class CountLinePlugin implements Plugin<Project> {
 
     private static final String JAVA_PATH = "/app/src/main/java"
     private static final String RES_PATH = "/app/src/main/res/layout"
-    private static final String COUNT_PATH = 'countpath'
+    private static final String COUNT_PATH = "countpath"
+    private static final String VALUE_TASK_NAME = "getvalue"
     private static final String TASK_NAME = "countline"
 
     @Override
     void apply(Project project) {
-        //def ext = project.extensions['countpath'] as CountLineExtension
-        //project.extensions.create(COUNT_PATH, CountLineExtension)
+        project.extensions.create(COUNT_PATH, CountLineExtension)
 
         String rootDir = project.rootDir.absolutePath
-        def task = project.tasks.create(TASK_NAME, CountLineTask)
-        task.javaPath = (rootDir + JAVA_PATH + "/com/example/zane/easylinecounter")
-        task.resPath = (rootDir + RES_PATH)
+        def countTask = project.tasks.create(VALUE_TASK_NAME, CountLineTask)
 
-        project.android.applicationVariants.all{ variant ->
-            task.dependsOn(variant.assemble)
-            variant.assemble.finalizedBy(task)
+
+        def valueTask = project.task(TASK_NAME) << {
+            println project[COUNT_PATH].javaPath
+            countTask.javaPath =  (rootDir + JAVA_PATH + project[COUNT_PATH].javaPath)
+            countTask.resPath = (rootDir + RES_PATH)
+        }
+
+        valueTask.finalizedBy(countTask)
+
+        project.getTasks().each {it ->
+            if ("assemble".equals(it.getName())) {
+                it.finalizedBy(valueTask)
+            }
         }
     }
 }
