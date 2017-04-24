@@ -2,8 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.zane.easylinecounter'
 
 countpath {
-    javaPath "/com/example/zane/easylinecounter"
-    resPath ""
+    filepaths = ['/app/src/main/res/values/styles.xml']
 }
 
 android {

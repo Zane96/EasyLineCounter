@@ -10,20 +10,28 @@ import org.gradle.api.tasks.TaskAction
 
 public class CountLineTask extends DefaultTask {
 
-    def javaPath;
-    def resPath;
-    def javaLines = 0;
-    def resLines = 0;
+    def javaPath
+    def layoutPath
+    //list
+    def filepaths
+    def javaLines = 0
+    def resLines = 0
 
     //task的响应方法
     @TaskAction
     void countLine() {
-        if (!isPathValid(javaPath, resPath)) {
+        if (!isPathValid(javaPath, layoutPath)) {
             throw new IllegalArgumentException("both of java and res path can't be null")
         }
 
+        if (filepaths != null) {
+            filepaths.each{path ->
+                travelAndCount(new File(path))
+            }
+        }
+
         def javaDir = new File(javaPath)
-        def resDir = new File(resPath)
+        def resDir = new File(layoutPath)
         travelAndCount(javaDir)
         travelAndCount(resDir)
         printSummary()
@@ -56,17 +64,31 @@ public class CountLineTask extends DefaultTask {
      * @return
      */
     def travelAndCount(File dir) {
-        dir.traverse { file ->
-            if (!file.directory) {
-                //dir是文件，开始统计行数
-                println file.name + " filename"
-                def list = file.collect{it}
-                if (file.name.endsWith(".java")) {
-                    javaLines += list.size()
-                } else if (file.name.endsWith(".xml")) {
-                    resLines += list.size()
+        if (dir.directory) {
+            dir.traverse { file ->
+                if (!file.directory) {
+                    addNum(file)
                 }
             }
+        } else {
+            addNum(dir)
         }
+    }
+
+    /**
+     * 统计行数
+     * @param file
+     * @param num
+     * @return
+     */
+    def addNum(File file) {
+        def list = file.collect { it }
+        def num = list.size()
+        if (file.name.endsWith(".java")) {
+            javaLines += num
+        } else if (file.name.endsWith(".xml")) {
+            resLines += num
+        }
+        println file.name + " " + num + "行"
     }
 }

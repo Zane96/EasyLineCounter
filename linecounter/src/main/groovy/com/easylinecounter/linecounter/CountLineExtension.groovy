@@ -5,8 +5,6 @@ package com.easylinecounter.linecounter
  */
 
 class CountLineExtension {
-    //java文件的根文件path
-    String javaPath = null;
-    //resource文件的根文件path
-    String resPath = null;
+    //自定义的统计文件路径
+    def filepaths
 }

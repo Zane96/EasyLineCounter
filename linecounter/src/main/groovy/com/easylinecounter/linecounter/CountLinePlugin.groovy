@@ -23,11 +23,17 @@ class CountLinePlugin implements Plugin<Project> {
         String rootDir = project.rootDir.absolutePath
         def countTask = project.tasks.create(VALUE_TASK_NAME, CountLineTask)
 
-
         def valueTask = project.task(TASK_NAME) << {
-            println project[COUNT_PATH].javaPath
-            countTask.javaPath =  (rootDir + JAVA_PATH + project[COUNT_PATH].javaPath)
-            countTask.resPath = (rootDir + RES_PATH)
+            countTask.javaPath =  (rootDir + JAVA_PATH)
+            countTask.layoutPath = (rootDir + RES_PATH)
+
+            def rawFilepaths = project[COUNT_PATH].filepaths
+            def finalFilepaths = []
+            rawFilepaths.each{path ->
+                path = rootDir + path
+                finalFilepaths << path
+            }
+            countTask.filepaths = finalFilepaths
         }
 
         valueTask.finalizedBy(countTask)
