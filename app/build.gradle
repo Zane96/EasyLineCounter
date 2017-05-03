@@ -1,9 +1,10 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'com.zane.easylinecounter'
-//
-//countpath {
-//    filepaths = ['/app/src/main/res/values/styles.xml']
-//}
+apply plugin: 'com.zane.easylinecounter'
+
+countpath {
+    filepaths = ['/app/src/main/res/values/styles.xml',
+                 '/app/src/main/res/values/colors.xml']
+}
 
 android {
     compileSdkVersion 25

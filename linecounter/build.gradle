@@ -1,12 +1,20 @@
 apply plugin: 'groovy'
-apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.novoda.bintray-release'
 
-group='com.github.zane96'
 
 dependencies {
     compile gradleApi()
     compile localGroovy()
     compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+publish {
+    userOrg = 'zane96'
+    groupId = 'com.zane'
+    artifactId = 'easylinecounter'
+    publishVersion = '1.0.0'
+    desc = 'a gradle plugin to count the number of lines of code in android project'
+    website = 'https://github.com/Zane96/EasyLineCounter'
 }
 
 sourceCompatibility = "1.7"
