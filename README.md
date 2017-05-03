@@ -1,5 +1,4 @@
 # EasyLineCounter
-a gradle plugin to count the number of lines of code in android project
 EasyLineCounter是一个统计Android工程代码行数的gradle插件
 
 # Dependency
@@ -35,4 +34,4 @@ countpath {
 
 ![shoot](shoot.jpg)
 
-###Just For Fun
+### Just For Fun
